@@ -54,7 +54,7 @@ ollama list
 Clone the repository:
 
 ```powershell
-git clone https://github.com/YOUR_USERNAME/ollama-cors-proxy.git
+git clone https://github.com/Igsaeg/ollama-cors-proxy.git
 cd ollama-cors-proxy
 ```
 
