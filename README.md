@@ -54,7 +54,7 @@ ollama list
 Clone the repository:
 
 ```powershell
-git clone https://github.com/YOUR_USERNAME/ollama-cors-proxy.git
+git clone https://github.com/Igsaeg/ollama-cors-proxy.git
 cd ollama-cors-proxy
 ```
 
@@ -64,16 +64,10 @@ Create a virtual environment:
 python -m venv .venv
 ```
 
-Install dependencies:
+Install/Update dependencies:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install fastapi uvicorn httpx
-```
-
-Or, if `requirements.txt` is included:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
 ## Running
@@ -104,7 +98,7 @@ A `start.bat` file can start both services automatically:
 
 ```bat
 @echo off
-set PROJECT_DIR=C:\Users\YOUR_USERNAME\Projects\ollama-proxy
+set PROJECT_DIR=C:\path\to\your\project
 
 wt -w 0 new-tab --title "Uvicorn" -d "%PROJECT_DIR%" cmd /k ".\.venv\Scripts\python.exe -m uvicorn proxy:app --host 0.0.0.0 --port 8000" ; new-tab --title "Ngrok" -d "%PROJECT_DIR%" cmd /k "ngrok http 8000"
 ```
@@ -227,15 +221,7 @@ This can prevent supported reasoning models from generating unnecessary reasonin
 ollama-cors-proxy/
 ├── proxy.py
 ├── start.bat
-├── requirements.txt
-├── test.json
 └── README.md
-```
-
-Generate `requirements.txt` with:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip freeze > requirements.txt
 ```
 
 ## Security
