@@ -33,7 +33,7 @@ Client / Application
 * Streaming response support
 * Optional disabling of model thinking/reasoning
 * ngrok support for remote access
-* Windows batch launcher for Uvicorn and ngrok
+* Hidden Windows launcher with startup confirmation
 
 ## Requirements
 
@@ -41,7 +41,6 @@ Client / Application
 * Python 3.10+
 * [Ollama](https://ollama.com/)
 * [ngrok](https://ngrok.com/)
-* Windows Terminal
 
 Verify Ollama is running:
 
@@ -64,7 +63,7 @@ Create a virtual environment:
 python -m venv .venv
 ```
 
-Install/Update dependencies:
+Install dependencies:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install fastapi uvicorn httpx
@@ -94,16 +93,45 @@ https://<your-ngrok-url>.ngrok-free.dev
 
 ### Windows Launcher
 
-A `start.bat` file can start both services automatically:
+The project includes a `start.vbs` launcher that starts both Uvicorn and ngrok in the background without leaving terminal windows open.
 
-```bat
-@echo off
-set PROJECT_DIR=C:\path\to\your\project
+Before using it, set the project directory inside `start.vbs`:
 
-wt -w 0 new-tab --title "Uvicorn" -d "%PROJECT_DIR%" cmd /k ".\.venv\Scripts\python.exe -m uvicorn proxy:app --host 0.0.0.0 --port 8000" ; new-tab --title "Ngrok" -d "%PROJECT_DIR%" cmd /k "ngrok http 8000"
+```vbscript
+projectDir = "C:\path\to\your\project"
 ```
 
-Change `PROJECT_DIR` to your project directory.
+Then double-click:
+
+```text
+start.vbs
+```
+
+The launcher:
+
+1. Starts Uvicorn using the project's `.venv`.
+2. Starts ngrok on port `8000`.
+3. Waits for the proxy to start.
+4. Checks whether the local proxy is responding.
+5. Displays a confirmation popup when the proxy starts successfully.
+
+A successful startup will show:
+
+```text
+Ollama CORS Proxy is running.
+```
+
+If the proxy fails to start, the launcher displays an error instead.
+
+### Stopping the Server
+
+Use:
+
+```text
+stop.bat
+```
+
+This stops the process listening on port `8000` and terminates ngrok.
 
 ## API Endpoints
 
@@ -219,9 +247,20 @@ This can prevent supported reasoning models from generating unnecessary reasonin
 
 ```text
 ollama-cors-proxy/
+├── .venv/
 ├── proxy.py
-├── start.bat
+├── start.vbs
+├── stop.bat
+├── .gitignore
 └── README.md
+```
+
+`.venv/` is the project's Python virtual environment and should not be committed to Git.
+
+Add it to `.gitignore`:
+
+```gitignore
+.venv/
 ```
 
 ## Security

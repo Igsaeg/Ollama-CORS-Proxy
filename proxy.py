@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse, Response, StreamingResponse
 
 OLLAMA_URL = "http://127.0.0.1:11434"
 
-app = FastAPI(title="Ollama Janitor Proxy")
+app = FastAPI(title="Ollama CORS Proxy")
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,7 +22,7 @@ app.add_middleware(
 async def root():
     return {
         "status": "ok",
-        "service": "ollama-janitor-proxy",
+        "service": "ollama-proxy",
         "ollama": OLLAMA_URL,
     }
 
